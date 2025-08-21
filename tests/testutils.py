@@ -1,5 +1,5 @@
 import sys
-sys.path.append(r'D:\projects\jtools')
+sys.path.append(r'F:\projects\jtools')
 
 from jtools.utils import *
 
@@ -11,3 +11,6 @@ assert trddts1 == get_trading_dates('DF', '20250101', '20250131')
 trddts2 = ['20250428', '20250429', '20250430', '20250506', '20250507', '20250508', '20250509', '20250512', '20250513', '20250514', '20250515', '20250516']
 assert trddts2 == get_trading_dates('SH', '20250428', '20250518')
 assert trddts2 == get_trading_dates('DF', '20250428', '20250518')
+
+lasttrddt = get_last_trddt()
+assert lasttrddt == '20250821'
