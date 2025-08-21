@@ -12,6 +12,9 @@ setup(
     long_description_content_type='text/markdown',
     url='https://github.com/DataScienceFish/jtools',
     packages=find_packages(),
+    package_data={
+        'jtools': ['data/*.csv'],  # 包含 jtools/data 文件夹中的所有 CSV 文件
+    },
     install_requires=[],
     classifiers=[
         'Programming Language :: Python :: 3',
