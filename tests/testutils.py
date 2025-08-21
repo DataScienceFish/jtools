@@ -14,3 +14,6 @@ assert trddts2 == get_trading_dates('DF', '20250428', '20250518')
 
 lasttrddt = get_last_trddt()
 assert lasttrddt == '20250821'
+
+latesttrddt = get_latest_trddt()
+assert lasttrddt == '20250821'

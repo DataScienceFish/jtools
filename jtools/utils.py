@@ -30,3 +30,15 @@ def get_last_trddt(market='SH') -> str:
     _stdate = (_now - timedelta(days=30)).strftime("%Y%m%d")
     _trddts = get_trading_dates(market, _stdate, _now.strftime("%Y%m%d"))
     return _trddts[-1]
+
+
+def get_latest_trddt(market='SH') -> str:
+    """获取：最近交易日
+
+    - 当日交易日，返回当日
+    - 当日非交易日，默认返回下一个交易日
+    """
+    _now = datetime.today()
+    _eddate = (_now + timedelta(days=30)).strftime("%Y%m%d")
+    _trddts = get_trading_dates(market, _now.strftime("%Y%m%d"), _eddate)
+    return _trddts[0]
