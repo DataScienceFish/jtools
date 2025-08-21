@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 from jtools import __name__, __version__
 
 setup(
-    name=__name__,
+    name="dsf-" + __name__,
     version=__version__,
     author='DSFish',
     author_email='liumingshuo1017@gmail.com',
