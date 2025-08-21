@@ -10,7 +10,7 @@ setup(
     description='A simple tools module',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
-    url='https://github.com/yourusername/jtools',
+    url='https://github.com/DataScienceFish/jtools',
     packages=find_packages(),
     install_requires=[],
     classifiers=[
