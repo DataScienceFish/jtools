@@ -11,6 +11,7 @@ SH_STARTDATE, SH_ENDDATE = '19901219', '20991231'
 
 def get_trading_dates(market, startdate: str, enddate: str) -> List[str]:
     """获取交易日"""
+    startdate, enddate = startdate.replace('-', ''), enddate.replace('-', '')
     today = datetime.today().strftime("%Y%m%d")
     enddate = min(today, enddate)
     exdates = C.HOLIDAYS.get(market, 'SH')
@@ -31,17 +32,22 @@ def get_trading_dates(market, startdate: str, enddate: str) -> List[str]:
     return all_trddts
 
 
-def get_last_trddt(market='SH') -> str:
+def get_last_trddt(market='SH', n=0, enddate=None) -> str:
     """获取：上一个成交日
     
     - 当日非交易日，默认返回前一个交易日
     - 当日交易日，返回当日
+    :param n: 多少个交易日
+    :param enddate: 从哪一天开始的上一个交易日
     :return: trddt in %Y%m%d format
     """
-    _now = datetime.today()
+    if enddate is None:
+        _now = datetime.today()
+    else:
+        _now = datetime.strptime(enddate, "%Y%m%d")
     _stdate = (_now - timedelta(days=30)).strftime("%Y%m%d")
     _trddts = get_trading_dates(market, _stdate, _now.strftime("%Y%m%d"))
-    return _trddts[-1]
+    return _trddts[-n-1]
 
 
 def get_latest_trddt(market='SH') -> str:

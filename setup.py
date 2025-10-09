@@ -15,7 +15,10 @@ setup(
     package_data={
         'jtools': ['data/*.csv'],  # 包含 jtools/data 文件夹中的所有 CSV 文件
     },
-    install_requires=[],
+    install_requires=[
+        "pymongo==4.11.2",  # 指定 pymongo 的版本
+        "loguru==0.7.2",  # loguru
+    ],
     classifiers=[
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
