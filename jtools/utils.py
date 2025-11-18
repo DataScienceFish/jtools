@@ -2,8 +2,9 @@ import os
 from datetime import datetime, timedelta
 from typing import *
 import pandas as pd
+import numpy as np
 
-from . import consts as C
+from jtools import consts as C
 
 
 SH_STARTDATE, SH_ENDDATE = '19901219', '20991231'
@@ -15,7 +16,9 @@ def _wind_code2inst_id(wind_codes: List[str]) -> List[str]:
     for wind_code in wind_codes:
         inst_name, wexchg_id = wind_code.split('.')
         exchg_id = C.MAP_WEXCHG_XTEXCHG.get(wexchg_id, wexchg_id)
-        # TODO: inst_name有时候会有差异，例如M01M.DCE和m01.DF，wind_code需要删除多余的M
+        
+        if exchg_id not in ['CZC', 'CFE']:
+            inst_name = inst_name.lower()
         inst_id = '.'.join([inst_name, exchg_id])
         # wind_codes.append()
         inst_ids[wind_code] = inst_id
@@ -69,7 +72,6 @@ def get_last_trddt(market='SH', n=0, enddate=None) -> str:
     else:
         _now = datetime.strptime(enddate, "%Y%m%d")
     _stdate = (_now - timedelta(days=30)).strftime("%Y%m%d")
-    # TODO：对于自然日的last_trddt就是最新trddt，例如周末更新宏观数据
     _trddts = get_trading_dates(market, _stdate, _now.strftime("%Y%m%d"))
     return _trddts[-n-1]
 
@@ -126,3 +128,4 @@ def is_trading_date(trddt, market='SH') -> bool:
 
 
 CACHE_TRDDTS = get_trading_dates(market='SH', startdate=SH_STARTDATE, enddate=SH_ENDDATE)
+
