@@ -25,3 +25,48 @@ HOLIDAYS = {
         "20251001", "20251002", "20251003", "20251004", "20251005", "20251006", "20251007", "20251008"  # 国庆节、中秋节
     ]
 }
+
+
+# 常用交易所
+FUTURES_EXCHGS = ['DF', 'ZF', 'SF', 'INE', 'GF', 'IF']
+EXFIN_FUTURES_EXCHGS = ['DF', 'ZF', 'SF', 'INE', 'GF']  # 非金融期货
+STOCK_EXCHGS = ['SH', 'SZ', 'BJ']
+
+# 三位交易所代码 --> 标准交易所代码
+MAP_WEXCHG_STDEXCHG = {
+    'DCE': 'DCE', 
+    'SHF': 'SHFE', 
+    'INE': 'INE', 
+    'SGE': 'SGE', 
+    'CZC': 'CZCE', 
+    'GFE': 'GFEX',
+    'CFE': 'CFFEX',
+}
+MAP_STDEXCHG_WEXCHG = {v:k for k, v in MAP_WEXCHG_STDEXCHG.items()}
+
+# 三位交易所代码 --> 二位交易所代码
+MAP_WEXCHG_XTEXCHG = {
+    'DCE': 'DF', 
+    'SHF': 'SF', 
+    'INE': 'INE', 
+    'SGE': 'SGE', 
+    'CZC': 'ZF', 
+    'GFE': 'GF',
+    'CFE': 'IF',
+    # 'SH': 'SH',
+    # 'SZ': 'SZ',
+    # 'CSI': "CSI"
+}
+# 二位交易所代码 --> 三位交易所代码
+MAP_XTEXCHG_WEXCHG = {v:k for k, v in MAP_WEXCHG_XTEXCHG.items()}
+
+# 二位交易所代码 --> 标准交易所代码
+MAP_XTEXCHG_STDEXCHG = {
+    'DCE': 'DF',
+    'CZCE': 'ZF',
+    'SHFE': 'SF',
+    'INE': 'INE',
+    'GFEX': 'GF',
+    'CFFEX': 'IF'
+}
+MAP_STDEXCHG_XTEXCHG = {v:k for k, v in MAP_XTEXCHG_STDEXCHG.items()}

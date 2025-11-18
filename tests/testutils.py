@@ -39,3 +39,7 @@ assert is_trading_date(1747929600000)
 assert is_trading_date(datetime(2025, 8, 22))
 assert is_trading_date(1755792000000)
 assert is_trading_date(1755792000)
+
+# 交易日偏移函数
+assert get_next_trddt(n=0) == datetime.today().strftime("%Y%m%d")
+assert get_next_trddt(n=1) == (datetime.today() + timedelta(days=1)).strftime("%Y%m%d")

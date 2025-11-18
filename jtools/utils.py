@@ -3,17 +3,40 @@ from datetime import datetime, timedelta
 from typing import *
 import pandas as pd
 
-from jtools import consts as C
+from . import consts as C
 
 
 SH_STARTDATE, SH_ENDDATE = '19901219', '20991231'
 
 
+def _wind_code2inst_id(wind_codes: List[str]) -> List[str]:
+    """转换：wind_code（三位交易所代码）转inst_id（二位交易所代码）"""
+    inst_ids = {}
+    for wind_code in wind_codes:
+        inst_name, wexchg_id = wind_code.split('.')
+        exchg_id = C.MAP_WEXCHG_XTEXCHG.get(wexchg_id, wexchg_id)
+        # TODO: inst_name有时候会有差异，例如M01M.DCE和m01.DF，wind_code需要删除多余的M
+        inst_id = '.'.join([inst_name, exchg_id])
+        # wind_codes.append()
+        inst_ids[wind_code] = inst_id
+    return inst_ids
+
+
+def to_inst_id(symbols: List[str], source='wind_code') -> List[str]:
+    """转换：转为inst_id（二位交易所代码）"""
+    if source == 'wind_code':
+        return _wind_code2inst_id(symbols)
+    else:
+        raise ValueError()
+    
+
 def get_trading_dates(market, startdate: str, enddate: str) -> List[str]:
     """获取交易日"""
     startdate, enddate = startdate.replace('-', ''), enddate.replace('-', '')
-    today = datetime.today().strftime("%Y%m%d")
-    enddate = min(today, enddate)
+    today = datetime.today()
+    # enddate = min(today.strftime("%Y%m%d"), enddate)
+    enddate = min(enddate, today.strftime("%Y1231")) # 改为当年最后一日（一般holiday是一年一次更新）
+    
     exdates = C.HOLIDAYS.get(market, 'SH')
     if startdate < "20241231":
         fp_his = os.path.join(os.path.dirname(__file__), f'data/trddt_{market}.csv')
@@ -46,8 +69,26 @@ def get_last_trddt(market='SH', n=0, enddate=None) -> str:
     else:
         _now = datetime.strptime(enddate, "%Y%m%d")
     _stdate = (_now - timedelta(days=30)).strftime("%Y%m%d")
+    # TODO：对于自然日的last_trddt就是最新trddt，例如周末更新宏观数据
     _trddts = get_trading_dates(market, _stdate, _now.strftime("%Y%m%d"))
     return _trddts[-n-1]
+
+
+def get_next_trddt(startdate=None, n=0, market="SH"):
+    """获取：下一个交易日（含当日）
+    - 当日非交易日，默认返回下一个交易日
+    - 当日交易日，返回当日
+    :param startdate: 从哪一天开始的上一个交易日
+    :param n: 多少个交易日
+    :return: trddt in %Y%m%d format
+    """
+    if startdate is None:
+        _stdate = datetime.today()
+    else:
+        _stdate = datetime.strptime(startdate, "%Y%m%d")
+    _eddate = (_stdate + timedelta(days=30)).strftime("%Y%m%d")
+    _trddts = get_trading_dates(market, _stdate.strftime("%Y%m%d"), _eddate)
+    return _trddts[n]
 
 
 def get_latest_trddt(market='SH') -> str:
