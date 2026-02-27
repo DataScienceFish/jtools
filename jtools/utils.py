@@ -71,7 +71,8 @@ def get_last_trddt(market='SH', n=0, enddate=None) -> str:
         _now = datetime.today()
     else:
         _now = datetime.strptime(enddate, "%Y%m%d")
-    _stdate = (_now - timedelta(days=30)).strftime("%Y%m%d")
+    _n = max(30, n) * 2
+    _stdate = (_now - timedelta(days=_n)).strftime("%Y%m%d")
     _trddts = get_trading_dates(market, _stdate, _now.strftime("%Y%m%d"))
     return _trddts[-n-1]
 
@@ -88,7 +89,8 @@ def get_next_trddt(startdate=None, n=0, market="SH"):
         _stdate = datetime.today()
     else:
         _stdate = datetime.strptime(startdate, "%Y%m%d")
-    _eddate = (_stdate + timedelta(days=30)).strftime("%Y%m%d")
+    _n = max(30, n) * 2
+    _eddate = (_stdate + timedelta(days=_n)).strftime("%Y%m%d")
     _trddts = get_trading_dates(market, _stdate.strftime("%Y%m%d"), _eddate)
     return _trddts[n]
 

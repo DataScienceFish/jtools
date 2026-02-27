@@ -1,5 +1,10 @@
 # JTools: simple tools, easy life
 
+## Install
+
+```cmd
+pip install dsf-jtools --upgrade
+```
 
 ## Building
 
