@@ -9,8 +9,8 @@ load_dotenv()
 
 if __name__ == "__main__":
 
-    print(os.getenv("TG_BOT_CRAWLER_INFORMER"))
-    if os.getenv("TG_BOT_CRAWLER_INFORMER") is None:
+    print(os.getenv("TG_BOT"))
+    if os.getenv("TG_BOT") is None:
         raise ValueError("No token")
     notifier = Notifier()
 

@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from typing import *
 import pandas as pd
 import numpy as np
+import hashlib
 
 from jtools import consts as C
 
@@ -131,3 +132,48 @@ def is_trading_date(trddt, market='SH') -> bool:
 
 CACHE_TRDDTS = get_trading_dates(market='SH', startdate=SH_STARTDATE, enddate=SH_ENDDATE)
 
+
+ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+
+# 10进制转为62进制
+def base62_encode(num, alphabet=ALPHABET):
+    """Encode a number in Base X
+    `num`: The number to encode
+    `alphabet`: The alphabet to use for encoding
+    """
+    if (num == 0):
+        return alphabet[0]
+    arr = []
+    base = len(alphabet)
+    while num:
+        rem = num % base
+        num = num // base
+        arr.append(alphabet[rem])
+    arr.reverse()
+    return ''.join(arr)
+
+
+# 62进制转为10进制
+def base62_decode(string, alphabet=ALPHABET):
+    """Decode a Base X encoded string into the number
+    Arguments:
+    - `string`: The encoded string
+    - `alphabet`: The alphabet to use for encoding
+    """
+    base = len(alphabet)
+    strlen = len(string)
+    num = 0
+    idx = 0
+    for char in string:
+        power = (strlen - (idx + 1))
+        num += alphabet.index(char) * (base ** power)
+        idx += 1
+    return num
+
+
+def sha256(data):
+    if isinstance(data, list):
+        data = ''.join([item[:25] for item in data])
+    data_sha = hashlib.sha256(data.encode('utf-8')).hexdigest()
+    return data_sha
