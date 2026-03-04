@@ -10,3 +10,6 @@ joblib==1.2.0
 loguru==0.7.2
 jmespath
 python-dotenv
+deprecation
+retrying==1.3.4
+# zmail
