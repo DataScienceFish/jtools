@@ -79,3 +79,13 @@ MAP_XTEXCHG_STDEXCHG = {
     'CFFEX': 'IF'
 }
 MAP_STDEXCHG_XTEXCHG = {v:k for k, v in MAP_XTEXCHG_STDEXCHG.items()}
+
+# spiders
+HEADERS = {
+    'accept': '*/*',
+    # 'accept-encoding': 'gzip, deflate, br',  # 一般不影响，但是对某些外网爬虫会有影响，例如YouTube等
+    'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8',
+    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36'
+}
+GET = 'GET'
+POST = 'POST'
